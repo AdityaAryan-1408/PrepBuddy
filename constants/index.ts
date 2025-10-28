@@ -157,36 +157,21 @@ End the conversation on a polite and positive note.
 
 export const feedbackSchema = z.object({
     totalScore: z.number(),
-    categoryScores: z.tuple([
-        z.object({
-            name: z.literal("Communication Skills"),
-            score: z.number(),
-            comment: z.string(),
-        }),
-        z.object({
-            name: z.literal("Technical Knowledge"),
-            score: z.number(),
-            comment: z.string(),
-        }),
-        z.object({
-            name: z.literal("Problem Solving"),
-            score: z.number(),
-            comment: z.string(),
-        }),
-        z.object({
-            name: z.literal("Cultural Fit"),
-            score: z.number(),
-            comment: z.string(),
-        }),
-        z.object({
-            name: z.literal("Confidence and Clarity"),
-            score: z.number(),
-            comment: z.string(),
-        }),
-    ]),
-    strengths: z.array(z.string()),
-    areasForImprovement: z.array(z.string()),
-    finalAssessment: z.string(),
+    categoryScores: z.array(z.object({
+        name: z.enum([
+            "Communication Skills",
+            "Technical Knowledge",
+            "Problem Solving",
+            "Cultural Fit",
+            "Confidence and Clarity"
+        ]).describe("The name of the category being scored."),
+
+        score: z.number().describe("The score for this category from 0 to 100."),
+        comment: z.string().describe("A brief comment on the candidate's performance in this category."),
+    })).describe("An array of scores and comments for each of the five specific categories."),
+    strengths: z.array(z.string()).describe("A list of the candidate's key strengths."),
+    areasForImprovement: z.array(z.string()).describe("A list of specific areas where the candidate can improve."),
+    finalAssessment: z.string().describe("A final, overall summary and assessment of the candidate's performance."),
 });
 
 export const interviewCovers = [
